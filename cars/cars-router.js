@@ -4,6 +4,8 @@
 const router = require('express').Router()
 // import cars model ------------------------------|
 const Cars = require('./cars-model.js')
+// bring in custom middleware ---------------------|
+const { validateCar } = require('../middleware/routerMiddleware.js')
 // ------------------------------------------------|
 // REQ HANDLERS ===================================|
 // ================================================|
@@ -36,6 +38,19 @@ router.get('/:id', async (req, res) => {
   } catch (error) {
     console.log(error)
     res.status(500).json({ message: 'Failed to get car' })
+  }
+})
+// POST Request - add a car to the db -------------|
+router.post('/', validateCar, async (req, res) => {
+  const newCar = req.body
+
+  try {
+    const addedCar = await Cars.add(newCar)
+
+    res.json(addedCar)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: 'Failed to add car' })
   }
 })
 // ------------------------------------------------|
