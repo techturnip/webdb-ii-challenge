@@ -20,5 +20,6 @@ const add = async car => {
 // ------------------------------------------------|
 module.exports = {
   findAll,
+  findBy,
   add
 }

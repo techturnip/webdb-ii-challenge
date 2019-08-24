@@ -20,6 +20,24 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: 'Failed to get cars' })
   }
 })
+// GET Request - returns car by id from db --------|
+router.get('/:id', async (req, res) => {
+  // pull id from url
+  const { id } = req.params
+
+  try {
+    const car = await Cars.findBy({ id })
+
+    if (car) {
+      res.json(car)
+    } else {
+      res.status(404).json({ message: 'Invalid car ID' })
+    }
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: 'Failed to get car' })
+  }
+})
 // ------------------------------------------------|
 // EXPORT ROUTER ==================================|
 // ================================================|
